@@ -1,0 +1,62 @@
+$(document).ready(function () {
+
+    responsiveVoice.pause();
+    var lang = $('html').attr('lang');
+    var voice = "Russian Female";
+    if (lang === "en-GB") {
+        voice = "UK English Female"
+    }
+
+    var speech = $("#speech");
+
+    $(document).mouseup(function (e) {
+        speech.hide();
+        if (getSelectionText().length > 1) {
+            speech.css({
+                left: e.pageX + 10,
+                top: e.pageY + 10
+            });
+            speech.show();
+        }
+    });
+
+    speech.children("button").click(function () {
+        speech.hide();
+        if (getSelectionText().length > 1) {
+            responsiveVoice.cancel();
+            responsiveVoice.speak(getSelectionText(), voice, {
+                onend: selectionClear
+            });
+        }
+    });
+
+    $("a").click(function () {
+        speech.hide();
+        if (getSelectionText().length > 1) {
+            selectionClear();
+        }
+    });
+});
+
+function getSelectionText() {
+    var text = "";
+    if (window.getSelection) {
+        text = window.getSelection().toString();
+    } else if (document.selection && (document.selection.type !== "Control")) {
+        text = document.selection.createRange().text;
+    }
+
+    return text;
+}
+
+function selectionClear() {
+    if (window.getSelection) {
+        if (window.getSelection().empty) {
+            window.getSelection().empty();
+        } else if (window.getSelection().removeAllRanges) {
+            window.getSelection().removeAllRanges();
+        }
+    } else if (document.selection) {
+        document.selection.empty();
+    }
+}

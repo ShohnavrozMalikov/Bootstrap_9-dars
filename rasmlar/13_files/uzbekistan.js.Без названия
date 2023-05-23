@@ -1,0 +1,1 @@
+﻿window.JSMaps.maps.uzbekistan = JSON.parse($('#uzbMapData').val());

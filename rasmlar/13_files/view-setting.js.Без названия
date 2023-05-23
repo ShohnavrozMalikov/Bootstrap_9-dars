@@ -1,0 +1,141 @@
+$(document).ready(function () {
+
+    var body = $('body'),
+        vsetBtn = $('#vsetBtn'),
+        vsetMenu = $('#vsetMenu'),
+        vsetDefault = $('#vsetDefault'),
+        vsetBlackWhite = $('#vsetBlackWhite'),
+        vsetBlackYellow = $('#vsetBlackYellow'),
+        vsetHideImg = $('#vsetHideImage'),
+        vsetLargeFont = $('#vsetLargeFont'),
+        vsetSmallFont = $('#vsetSmallFont'),
+        sessionNameImg = 'vsetImg',
+        sessionNameFont = 'vsetFont',
+        sessionNameColor = 'vsetColor',
+        sessionImg = sessionStorage.getItem(sessionNameImg),
+        sessionFont = sessionStorage.getItem(sessionNameFont),
+        sessionColor = sessionStorage.getItem(sessionNameColor);
+
+    if (sessionFont) {
+        body.addClass(sessionFont);
+        if (sessionFont === 'small-font') {
+            vsetSmallFont.addClass('active');
+        }
+        if (sessionFont === 'large-font') {
+            vsetLargeFont.addClass('active');
+        }
+    }
+
+    if (sessionColor) {
+        body.addClass(sessionColor);
+        if (sessionColor === 'black-white') {
+            vsetBlackWhite.addClass('active');
+        }
+        if (sessionColor === 'black-yellow') {
+            vsetBlackYellow.addClass('active');
+        }
+    }
+
+    if (sessionImg) {
+        body.addClass(sessionImg);
+        vsetHideImg.addClass('active');
+    }
+
+    vsetDefault.click(function () {
+        body.removeClass();
+        vsetBlackWhite.removeClass('active');
+        vsetBlackYellow.removeClass('active');
+        vsetLargeFont.removeClass('active');
+        vsetSmallFont.removeClass('active');
+        vsetHideImg.removeClass('active');
+        body.addClass('default');
+        sessionStorage.removeItem(sessionNameImg);
+        sessionStorage.removeItem(sessionNameFont);
+        sessionStorage.removeItem(sessionNameColor);
+    });
+
+    vsetBlackWhite.click(function () {
+        $(this).toggleClass('active');
+        vsetBlackYellow.removeClass('active');
+        body.removeClass('black-yellow');
+        body.toggleClass('black-white');
+        if (sessionColor = sessionStorage.getItem(sessionNameColor)) {
+            sessionStorage.removeItem(sessionNameColor);
+            if (sessionColor !== 'black-white') {
+                sessionStorage.setItem(sessionNameColor, 'black-white');
+            }
+        } else {
+            sessionStorage.setItem(sessionNameColor, 'black-white');
+        }
+    });
+
+    vsetBlackYellow.click(function () {
+        $(this).toggleClass('active');
+        vsetBlackWhite.removeClass('active');
+        body.removeClass('black-white');
+        body.toggleClass('black-yellow');
+        if (sessionColor = sessionStorage.getItem(sessionNameColor)) {
+            sessionStorage.removeItem(sessionNameColor);
+            if (sessionColor !== 'black-yellow') {
+                sessionStorage.setItem(sessionNameColor, 'black-yellow');
+            }
+        } else {
+            sessionStorage.setItem(sessionNameColor, 'black-yellow');
+        }
+    });
+
+    vsetHideImg.click(function () {
+        $(this).toggleClass('active');
+        body.toggleClass('hide-image');
+        if (sessionImg) {
+            sessionStorage.removeItem(sessionNameImg);
+        } else {
+            sessionStorage.setItem(sessionNameImg, 'hide-image');
+        }
+    });
+
+    vsetLargeFont.click(function () {
+        $(this).toggleClass('active');
+        vsetSmallFont.removeClass('active');
+        body.removeClass('small-font');
+        body.toggleClass('large-font');
+        if (sessionFont = sessionStorage.getItem(sessionNameFont)) {
+            sessionStorage.removeItem(sessionNameFont);
+            if (sessionFont !== 'large-font') {
+                sessionStorage.setItem(sessionNameFont, 'large-font');
+            }
+        } else {
+            sessionStorage.setItem(sessionNameFont, 'large-font');
+        }
+    });
+
+    vsetSmallFont.click(function () {
+        $(this).toggleClass('active');
+        vsetLargeFont.removeClass('active');
+        body.removeClass('large-font');
+        body.toggleClass('small-font');
+        if (sessionFont = sessionStorage.getItem(sessionNameFont)) {
+            sessionStorage.removeItem(sessionNameFont);
+            if (sessionFont !== 'small-font') {
+                sessionStorage.setItem(sessionNameFont, 'small-font');
+            }
+        } else {
+            sessionStorage.setItem(sessionNameFont, 'small-font');
+        }
+    });
+
+    vsetBtn.click(function () {
+        $(this).toggleClass('active');
+        vsetMenu.toggle();
+    });
+
+    $(document).mouseup(function (e) {
+        if (!vsetBtn.children().is(e.target) &&
+            !vsetBtn.is(e.target) &&
+            !vsetMenu.is(e.target) &&
+            vsetMenu.has(e.target).length === 0) {
+            vsetMenu.hide();
+            vsetBtn.removeClass('active');
+        }
+    });
+});

@@ -1,0 +1,65 @@
+$(document).ready(function () {
+
+    //Main Menu
+    var mainMenu = $('header').children('.menu');
+    var mainMenuPos = mainMenu.offset().top;
+
+    $(window).bind('scroll', function () {
+        if ($(window).scrollTop() > mainMenuPos) {
+            mainMenu.addClass('fixed');
+        } else {
+            mainMenu.removeClass('fixed');
+        }
+    });
+
+    $("#printBtn").click(function () {
+        window.print();
+    });
+
+    $("#searchBtn").click(function () {
+        $("#searchForm").animate({'width': 'toggle'});
+        if($(this).hasClass('active')){
+            $(this).removeClass('active');
+            $(this).html('<i class="fa fa-search"></i>');
+        }else{
+            $(this).addClass('active');
+            $(this).html('<i class="fa fa-remove"></i>');
+        }
+
+    });
+
+    // Ctrl + Enter
+    function getText(e) {
+        if ((e.ctrlKey) && ((e.keyCode === 10) || (e.keyCode === 13))) {
+            CtrlEnter();
+        }
+        return true;
+    }
+
+    /*function CtrlEnter() {
+        var text = window.getSelection().toString();
+        if (text.length !== 0) {
+            if (text.length < 3 || text.length > 30) {
+                switch (document.documentElement.lang) {
+                    case 'uz-UZ':
+                        alert('3 dan 30 gacha belgidan iborat matnni belgilang');
+                        break;
+                    case 'ru-RU':
+                        alert('Отметьте текст от 3 до 30 символов');
+                        break;
+                    case 'en-GB':
+                        alert('Mark the text 3 to 30 characters');
+                        break;
+                    default:
+                        alert('3 dan 30 gacha belgidan iborat matnni belgilang');
+                }
+            } else {
+                $("#textErrorInput").val(text);
+                $("#sendTextError").modal("show");
+            }
+        }
+    }*/
+
+    document.onkeypress = getText;
+
+});
